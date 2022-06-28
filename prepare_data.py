@@ -2,6 +2,8 @@ from eda import Dataset
 import numpy as np
 import cv2
 import sys
+from keras.utils import to_categorical
+
 
 def print_progress_bar(index, total, label):
     n_bar = 50  # Progress bar width
@@ -26,17 +28,17 @@ class PrepareData(Dataset):
                         list_landmarks_align_celeba_path,
                         images_path)
 
-    def generate_set(self, partition, attribute=['Smiling'], limit=None):
+    def generate_set(self, partition, attribute=['Smiling'], limit=None, color=cv2.COLOR_BGR2RGB):
         """
         partition: 
             0 - train set
             1 - validation set
             2 - test set
         """
-        partition_list = [0,1,2]
-        assert partition in partition_list, f"allowed values for partition: {partition_list}"
+        df = self.df.set_index('image_id')
 
-        data = self.df.loc[self.df.partition == partition, attribute]
+        assert partition in [0,1,2], f"allowed values for partition: {[0,1,2]}"
+        data = df.loc[df.partition == partition, attribute]
         if limit:
             data = data.iloc[:limit, :]
 
@@ -46,14 +48,20 @@ class PrepareData(Dataset):
         x = []
         for idx, image in enumerate(images, start=1):
             img = cv2.imread(self.images_path + image)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = cv2.cvtColor(img, color)
             x.append(img)
             print_progress_bar(idx, total_images, 'loading images')
-        x = np.array(x)
+        print()
 
+        x = np.array(x)
         y = np.array(data[attribute]).reshape(-1,)
 
         return x , y
+
+    @staticmethod
+    def transform_labels(labels):
+        cat_labels = np.where(labels < 0, 0, labels)
+        return to_categorical(cat_labels)
 
     @staticmethod
     def save_set(x, y, filename, path='./data/processed/'):
@@ -70,6 +78,7 @@ class PrepareData(Dataset):
         return x, y
 
 
+
 if __name__ == '__main__':
     dataset = PrepareData()
 
@@ -79,6 +88,8 @@ if __name__ == '__main__':
     # x_val, y_val = dataset.generate_set(1)
     # dataset.save_set(x_val, y_val, 'valid')
 
+    # x_test, y_test = dataset.generate_set(2)
+    # dataset.save_set(x_test, y_test, 'test')
 
 
 

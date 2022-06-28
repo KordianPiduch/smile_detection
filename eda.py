@@ -23,9 +23,6 @@ class Dataset:
         df = df.merge(list_eval_partition, on='image_id')
         self.df = df.merge(list_landmarks_align_celeba, on='image_id')
         self.images_path = images_path
-        # added
-        self.df.set_index('image_id', inplace=True)
-        self.attributes = list_attr_celeba.columns[1:]
 
     def generate_report(self, report_name='celeba_report'):
         profile = ProfileReport(self.df, title="Pandas Profiling Report")
@@ -70,7 +67,7 @@ class Dataset:
 if __name__ == "__main__":
     dataset = Dataset()
     # dataset.generate_report()
-    dataset.show_some_examples(attribute="5_o_Clock_Shadow", positive=False)
+    dataset.show_some_examples(attribute="Smiling", positive=True)
 
 
 
