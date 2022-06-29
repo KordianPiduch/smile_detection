@@ -5,8 +5,8 @@ Main goal for this project is to build a tool able to recognise if person is smi
 
 **Python version:** 3.10.4.  
 **Packages:** pandas, numpy, matplotlib, keras.  
-**Data resource:** https://www.kaggle.com/datasets/jessicali9530/celeba-dataset
-**Repo from**  https://gitlab.com/damianbrzoza/computer_vision_sda
+**Data resource:** https://www.kaggle.com/datasets/jessicali9530/celeba-dataset  
+**Repo from**  https://gitlab.com/damianbrzoza/computer_vision_sda  
 **Resources**
 - https://www.intel.com/content/www/us/en/developer/articles/technical/inception-v3-deep-convolutional-architecture-for-classifying-acute-myeloidlymphoblastic.html
 - https://towardsdatascience.com/10-minutes-to-building-a-cnn-binary-image-classifier-in-tensorflow-4e216b2034aa
