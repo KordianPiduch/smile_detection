@@ -49,19 +49,19 @@ class PrepareData(Dataset):
         for idx, image in enumerate(images, start=1):
             img = cv2.imread(self.images_path + image)
             img = cv2.cvtColor(img, color)
+            img = img[20:198, :]  # crop photo to recatangle 178x178
             x.append(img)
-            print_progress_bar(idx, total_images, 'loading images')
+            print_progress_bar(idx, total_images, '')
         print()
 
         x = np.array(x)
         y = np.array(data[attribute]).reshape(-1,)
 
-        return x , y
+        return x , self.transform_labels(y)
 
     @staticmethod
     def transform_labels(labels):
-        cat_labels = np.where(labels < 0, 0, labels)
-        return to_categorical(cat_labels)
+        return np.where(labels < 0, 0, labels)
 
     @staticmethod
     def save_set(x, y, filename, path='./data/processed/'):
@@ -78,19 +78,14 @@ class PrepareData(Dataset):
         return x, y
 
 
-
 if __name__ == '__main__':
     dataset = PrepareData()
 
-    # x_tr, y_tr = dataset.generate_set(0)
-    # dataset.save_set(x_tr, y_tr, 'train')
+    x_tr, y_tr = dataset.generate_set(0, limit=10_000)
+    dataset.save_set(x_tr, y_tr, 'train')
 
-    # x_val, y_val = dataset.generate_set(1)
-    # dataset.save_set(x_val, y_val, 'valid')
+    x_val, y_val = dataset.generate_set(1, limit=2_000)
+    dataset.save_set(x_val, y_val, 'valid')
 
-    # x_test, y_test = dataset.generate_set(2)
-    # dataset.save_set(x_test, y_test, 'test')
-
-
-
-    
+    x_test, y_test = dataset.generate_set(2, limit=2_000)
+    dataset.save_set(x_test, y_test, 'test')
