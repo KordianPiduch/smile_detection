@@ -2,6 +2,8 @@ from keras.models import Sequential
 from image_data_generator import DataGenerator
 from keras.applications import InceptionV3
 from prepare_data import PrepareData
+from sklearn.metrics import classification_report
+from sklearn.metrics import RocCurveDisplay
 from keras import layers 
 import keras
 import matplotlib.pyplot as plt
@@ -80,11 +82,11 @@ class BuildModel:
         prediction = self.model.predict(np.array([data, ]), verbose=False)
         return prediction
 
-    def save_model(self, name, path='./models/'):
-        self.model.save(f'{path+name}.h5')
+    def save_model(self, name, path='./saved_models/'):
+        self.model.save(f'{path+name}')
 
-    def load_model(self, name, path='./models/'):
-        self.model = keras.models.load_model(f'{path+name}.h5')
+    def load_model(self, name, path='./saved_models/'):
+        self.model = keras.models.load_model(f'{path+name}')
 
     @staticmethod
     def _plot_history(history):
@@ -108,9 +110,19 @@ class BuildModel:
     def plot_history(self):
         self._plot_history(self.model.history)
 
+    def plot_auc(self, x_test, y_test, treshold=0.5):
+        x_test = x_test / 255
+        y_pred = self.model.predict(x_test)
+        y_pred_treshold = np.where(y_pred > treshold, 1, 0)
+
+        
+        print(classification_report(y_test, y_pred_treshold))
+        RocCurveDisplay.from_predictions(y_test, y_pred_treshold)
+
     
 
 if __name__ == '__main__':
+    pass
     # my_model = BuildModel(True)
     
     # x_train, y_train = PrepareData.load_set('train', './data/processed/')
