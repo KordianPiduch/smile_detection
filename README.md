@@ -49,9 +49,9 @@ Model is based on InceptionV3 architecture with custom top layer. In this projec
 
 I trained two models with the same architecture, only different was that binary_model2 was trained with augmentation. 
 
-binary_model1 - classification report (test data)
-''''
-'''
+binary_model1 - classification report (test data)  
+```
+
               precision    recall  f1-score   support
 
            0       0.82      0.78      0.80       996
@@ -60,12 +60,12 @@ binary_model1 - classification report (test data)
     accuracy                           0.81      2000
    macro avg       0.81      0.81      0.81      2000
 weighted avg       0.81      0.81      0.81      2000
-'''
-''''
 
-binary_model2 - classification report (test data)
-''''
-'''
+```
+
+binary_model2 - classification report (test data)  
+```
+
               precision    recall  f1-score   support
 
            0       0.85      0.73      0.79       996
@@ -74,8 +74,9 @@ binary_model2 - classification report (test data)
     accuracy                           0.80      2000
    macro avg       0.81      0.80      0.80      2000
 weighted avg       0.81      0.80      0.80      2000
-'''
-''''
+
+```
+
 
 # Face recognition 
 For face detection I used openCV build in CascadeClassifier with pretreined weight for face detection (xml files from openCV github repository - link in resources).
