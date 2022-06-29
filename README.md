@@ -44,6 +44,9 @@ PrepareData Class has a method "generate_set" which is used for converting image
 
 Also this class has additional method for saving generated arrays to file and for reading this file.
 
+![alt text](https://github.com/KordianPiduch/smile_detection/blob/master/reports/small_dataset_smiling_distribution.png "generated data distribution")
+![alt text](https://github.com/KordianPiduch/smile_detection/blob/master/reports/cropped_images.png "cropped images")
+
 # Model 
 Model is based on InceptionV3 architecture with custom top layer. In this project I tried to predict if person is smiling or not (binary classification). Model will be used in next part of the project. 
 
